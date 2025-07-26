@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="0JgZrjZ1wUoHp4VVHhR4xWiAPgd0Nm4rGKhfm-wofk4" />
+    <meta name="description" content="TenantFit helps Ontario landlords screen rental applicants smarter with privacy-first, lead-ranking tools. Early access free forever!">
+    <meta property="og:title" content="TenantFit - Smarter Rental Pre-Screening">
+    <meta property="og:description" content="Join our Alpha launch and pre-screen tenants smarter. No credit card needed. Free forever for early users.">
+    <meta property="og:image" content="URL_TO_SOCIAL_IMAGE">
+    <meta property="og:url" content="https://tenantfit.ca">
+    <meta name="twitter:card" content="summary_large_image">
+    <title>TenantFit - Smarter Rental Pre-Screening</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <script type="text/javascript">    
+        var link = document.createElement( "link" );
+        let loc = new URL("https://tfv.tenantfit.ca/app/");
+
+        loc.searchParams.append('app_referrer', document.referrer);
+
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.forEach((v, k) => {
+            loc.searchParams.append(k, v);
+        })
+
+        link.href = loc.toString()
+        link.rel = "stylesheet";
+
+        document.getElementsByTagName( "head" )[0].appendChild( link );
+    </script>
+    <noscript>
+        <link href="https://tfv.tenantfit.ca/app/" rel="stylesheet">
+    </noscript>
+    <style>
+        .hero {
+            background: #0d6efd;
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+        }
+        .login-link {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        .cta {
+            padding: 40px 20px; 
+        }
+        .badge-custom {
+            background-color: #20c997;
+        }
+
+        .container { 
+            max-width: 900px;
+            margin-top: 50px; 
+        }
+        .hidden { display: none; }
+        @media (max-width: 991.98px) {
+            .container {
+                max-width: 98vw;
+            }
+        }
+        td, th {
+            white-space: normal !important;
+        }
+ 
+        @media (max-width: 575.98px) {
+            .shadow-mobile-none {
+                box-shadow: none !important;
+            }
+        }
+
+        .dashboard-table thead th {
+            position: sticky;
+            top: 0;
+            background: #f8f9fa;
+            z-index: 1;
+        }
+        .dashboard-table tbody tr:hover {
+            background: #e9ecef;
+        }
+        .dashboard-actions .btn {
+            min-width: 2.5rem;
+        }
+        #loginEmail, #loginPassword {
+            max-width: 500px;
+        }
+        @media (max-width: 575.98px) {
+            .container {
+                margin-top: auto;
+            }
+            .dashboard-actions {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .dashboard-actions .btn {
+                flex: 1 1 auto;
+                margin-bottom: 0.5rem;
+            }
+            .dashboard-table thead th.text-end {
+                display: none; 
+            }
+            .dashboard-table tbody tr td {
+                border-bottom: none; 
+            }
+            .dashboard-table tbody tr.d-sm-none td {
+                border-bottom: 1px solid #dee2e6; 
+            }
+        }
+        .thank-you-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            background-color: #f8f9fa;
+        }
+        .thank-you-screen h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .thank-you-screen p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        .thank-you-screen .btn {
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+        }
+
+        .form-check-label {
+            display: inline;
+        }
+
+        /* Improved Candidate Details Layout for Consistency */
+        #tenantDetailsContent {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .tenant-details-card {
+            background: #fff;
+            border-radius: 1rem;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+        }
+        .tenant-details-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        #candidateScoreBadge {
+            font-size: 1.1rem;
+            padding: 0.5em 1.2em;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+        }
+        @media (max-width: 600px) {
+            .tenant-details-card {
+                padding: 1rem 0.5rem;
+            }
+        }
+
+        /* Responsive Candidate Table */
+        @media (max-width: 800px) {
+            #tenantCandidatesContent table thead {
+                display: none;
+            }
+            #tenantCandidatesContent table tbody tr {
+                display: block;
+                margin-bottom: 1.5rem;
+                border: 1px solid #dee2e6;
+                border-radius: 0.5rem;
+                box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+                background: #fff;
+                padding: 0.5rem 0.75rem;
+            }
+            #tenantCandidatesContent table tbody td {
+                display: flex;
+                width: 100%;
+                justify-content: space-between;
+                align-items: center;
+                border: none !important;
+                padding: 0.5rem 0;
+                font-size: 1rem;
+            }
+            #tenantCandidatesContent table tbody td:before {
+                content: attr(data-label);
+                font-weight: 600;
+                color: #495057;
+                flex: 0 0 55%;
+                text-align: left;
+                padding-right: 1rem;
+            }
+            #tenantCandidatesContent table tbody td:last-child {
+                justify-content: flex-end;
+            }
+        }
+        @media (max-width: 500px) {
+            #tenantCandidatesContent table tbody tr {
+                padding: 0.25rem 0.25rem;
+            }
+            #tenantCandidatesContent table tbody td {
+                font-size: 0.97rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container-fluid p-0">
+        <!-- Register Screen -->
+        <div id="registerScreen" class="hidden">
+          <div class="min-vh-100 mt-1 d-flex  align-items-start justify-content-center">
+            <div class="bg-white rounded-2 shadow shadow-mobile-none p-4 mx-auto col-12 col-sm-8 col-md-5 col-lg-3">
+              <h2 class="mb-3 text-center">Register</h2>
+              <form id="registerForm" novalidate>
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email address</label>
+                  <input type="email" class="form-control" id="email" required>
+                  <div class="invalid-feedback">Please provide a valid email address.</div>
+                </div>
+                <div class="mb-3">
+                  <label for="password" class="form-label">Password</label>
+                  <input type="password" class="form-control" id="password" required>
+                  <div class="invalid-feedback">Please provide a password.</div>
+                </div>
+                <div class="mb-3">
+                  <label for="confirmPassword" class="form-label">Confirm Password</label>
+                  <input type="password" class="form-control" id="confirmPassword" required>
+                  <div class="invalid-feedback">Passwords must match.</div>
+                </div>
+                <div class="form-check mb-3">
+                  <input class="form-check-input" type="checkbox" id="termsCheck" required>
+                  <label class="form-check-label" for="termsCheck">
+                    I agree to the <a href="/terms.html" target="_blank">Terms</a> & <a href="/privacy.html" target="_blank">Privacy Policy</a>
+                  </label>
+                  <div class="invalid-feedback">You must agree to the terms and privacy policy to use this service.</div>
+                </div>
+                <div class="form-check mb-3">
+                  <input class="form-check-input" type="checkbox" id="newsConsentCheck">
+                  <label class="form-check-label" for="newsConsentCheck">
+                    I consent to receive occasional emails from TenantFit with news and updates
+                  </label>
+                </div>
+                <div class="mb-3">
+                  <div id="captchaContainer"></div>
+                </div>
+                <button type="button" class="btn btn-primary" onclick="register()">Register</button>
+                <button type="button" class="btn btn-secondary" onclick="showLoginScreen()">Cancel</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Confirm Email Screen -->
+        <div id="confirmEmailScreen" class="hidden">
+          <div class="min-vh-100 d-flex mt-1 align-items-start justify-content-center">
+            <div class="bg-white rounded-2 shadow shadow-mobile-none p-4 mx-auto col-12 col-sm-8 col-md-5 col-lg-3">
+              <h2 class="mb-3 text-center">Confirm Email</h2>
+              <form id="confirmEmailForm" novalidate>
+                <div class="mb-3">
+                  <label for="confirmEmailInput" class="form-label">Email</label>
+                  <input type="email" class="form-control" id="confirmEmailInput" required>
+                  <div class="invalid-feedback">Please provide your email address.</div>
+                </div>
+                <div class="mb-3">
+                  <label for="confirmationCode" class="form-label">Confirmation Code</label>
+                  <input type="text" class="form-control" id="confirmationCode" required>
+                  <div class="invalid-feedback">Please provide the confirmation code.</div>
+                </div>
+                <button type="button" class="btn btn-primary" onclick="handleConfirmEmail()">Confirm</button>
+                <button type="button" class="btn btn-secondary" onclick="showLoginScreen()">Cancel</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Login Screen -->
+        <div id="loginScreen"  class="hidden">
+          <div class="min-vh-100 d-flex mt-1 align-items-start justify-content-center">
+            <div class="bg-white rounded-2 shadow shadow-mobile-none p-4 mx-auto col-12 col-sm-8 col-md-5 col-lg-3">
+              <div class="text-center mb-4">
+                <div class="logo"><a class="btn btn-link text-decoration-none p-0 m-0 align-baseline" onclick="showLandingScreen()">TenantFit</a>: Smarter rental pre-screening</div>
+              </div>
+              <form id="loginForm" novalidate>
+                <div class="mb-3">
+                  <label for="loginEmail" class="form-label">Email address</label>
+                  <input type="email" class="form-control" id="loginEmail" name="loginEmail" required placeholder="you@example.com">
+                  <div class="invalid-feedback">Please provide a valid email address.</div>
+                </div>
+                <div class="mb-3">
+                  <label for="loginPassword" class="form-label d-flex justify-content-between">
+                    <span>Password</span>
+                    <a class="btn btn-link btn-sm text-decoration-none p-0 m-0 align-baseline" onclick="showForgotPasswordScreen()">Forgot password?</a>
+                  </label>
+                  <input type="password" class="form-control" id="loginPassword" name="loginPassword" required>
+                  <div class="invalid-feedback">Please provide your password.</div>
+                </div>
+                <div class="d-grid mb-3">
+                  <button type="button" class="btn btn-primary" onclick="login()">Log In</button>
+                </div>
+                <p class="text-center small text-muted">
+                  Don't have an account?
+                  <a class="btn btn-link btn-sm text-decoration-none p-0 m-0 align-baseline" onclick="showRegisterScreen()">Create one</a>
+                </p>
+                <div class="text-center mb-4">
+                  <button class="btn btn-link btn-sm text-decoration-none p-0 m-0 align-baseline" type="button" onclick="showConfirmEmailScreen()"> Confirm Email</button> |
+                  <button class="btn btn-link btn-sm text-decoration-none p-0 m-0 align-baseline" type="button" onclick="showResetPasswordScreen()"> Reset Password</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div id="landingScreen"  class="hidden">
+            <section class="hero">
+                <a href="/#login" class="text-white text-decoration-none login-link">Login</a>
+                <div class="container">
+                  <h1 class="display-4 fw-bold">🚀 Free Forever for Early Users</h1>
+                  <p class="lead mt-3">Join our Alpha and pre-screen your rental leads smarter for free — no credit card needed.</p>
+                  <p class="fs-5">All properties added during the alpha phase are yours to keep, <strong>free forever</strong>.</p>
+                  <a href="javascript:void(0)" onclick="showRegisterScreen()" class="btn btn-light btn-lg mt-4">Get Early Access</a>
+                  <p class="mt-3">Cut the noise. Focus on qualified tenants. Save hours of messaging.</p>
+                </div>
+              </section>
+            
+              <section class="cta text-center">
+                <div class="container">
+                  <h2 class="mb-4">Why Join Now?</h2>
+                  <div class="row g-4">
+                    <div class="col-md-4">
+                      <span class="badge badge-custom px-3 py-2 mb-2">⚡ Save Time</span>
+                      <p>Filter and rank rental leads so you talk to the best candidates first.</p>
+                    </div>
+                    <div class="col-md-4">
+                      <span class="badge badge-custom px-3 py-2 mb-2">🎁 Lock In Free Access</span>
+                      <p>Every property you add during Alpha is free to manage forever.</p>
+                    </div>
+                    <div class="col-md-4">
+                      <span class="badge badge-custom px-3 py-2 mb-2">🛠️ Shape the Future</span>
+                      <p>Your feedback will help shape the tools Ontario landlords need most.</p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            
+              <section class="py-5 bg-light text-center">
+                <div class="container">
+                  <h2 class="mb-4">What You'll Get With TenantFit</h2>
+                  <div class="row g-4">
+                    <div class="col-md-3">
+                      <h5>🔍 Smarter Screening</h5>
+                      <p>We help you prioritize leads based on income, move-in readiness, and more — no more guesswork.</p>
+                    </div>
+                    <div class="col-md-3">
+                      <h5>📊 Lead Scoring</h5>
+                      <p>Our simple ranking system helps you identify the best tenant candidates first.</p>
+                    </div>
+                    <div class="col-md-3">
+                      <h5>📂 Organized Listings</h5>
+                      <p>Keep track of multiple rental properties and inquiries without clutter or spreadsheets.</p>
+                    </div>
+                    <div class="col-md-3">
+                      <h5>🔐 Keep It Simple</h5>
+                      <p>No accounts, no sensitive data. Just one form and email-based communication.</p>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              <section class="bg-white py-5">
+                <div class="container">
+                    <div class="row text-center mb-4">
+                        <h2 class="mb-4">How It Works</h2>
+                    </div>
+                    <div class="row text-center g-4">
+                        <div class="col-md-4">
+                            <h5>1. Add Your Property</h5>
+                            <p class="text-muted">Create a listing and generate a custom link to share with potential tenants.</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>2. Receive Ranked Leads</h5>
+                            <p class="text-muted">Candidates answer a short pre-screening form. We rank leads to save you time.</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h5>3. Contact the Best Fits</h5>
+                            <p class="text-muted">Reach out directly by email. No names or phone numbers collected—privacy-first.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+              <section class="py-5 bg-light" id="signup">
+                <div class="container text-center">
+                  <h3 class="mb-4">Sign Up for Early Access</h3>
+                    <div class="row justify-content-center">
+                        <div class="col-md-6">
+                            <button class="btn btn-primary btn-lg w-100" type="button" onclick="showRegisterScreen()">Join the Alpha</button>
+                        </div>
+                    </div>
+                  <p class="text-muted mt-3 small">No spam. No commitment. Just early access.</p>
+                </div>
+              </section>
+              <footer class="bg-dark text-light text-center">
+                <div class="container py-4">
+                    <small><a href="https://tenantfit.ca" class="text-light text-decoration-none"> &copy; 2025 TenantFit</a> | <a href="https://tenantfit.ca/blog/" class="text-light text-decoration-none" target="_blank">Blog</a> | Alpha Launch. All rights reserved.</small>
+                </div>
+            </footer>
+        </div>
+
+        <!-- Forgot Password Screen -->
+        <div id="forgotPasswordScreen" class="hidden">
+          <div class="min-vh-100 d-flex mt-1 align-items-start justify-content-center">
+            <div class="bg-white rounded-2 shadow shadow-mobile-none p-4 mx-auto col-12 col-sm-8 col-md-5 col-lg-3">
+              <h2 class="mb-3 text-center">Forgot Password</h2>
+              <form id="forgotPasswordForm" novalidate>
+                <div class="mb-3">
+                  <label for="forgotEmail" class="form-label">Email</label>
+                  <input type="email" class="form-control" id="forgotEmail" required>
+                  <div class="invalid-feedback">Please provide your email address.</div>
+                </div>
+                <button type="button" class="btn btn-primary" onclick="sendResetCode()">Send Reset Code</button>
+                <button type="button" class="btn btn-secondary" onclick="showLoginScreen()">Cancel</button>
+              </form>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Reset Password Screen -->
+        <div id="resetPasswordScreen" class="hidden">
+          <div class="min-vh-100 d-flex mt-1 align-items-start justify-content-center">
+            <div class="bg-white rounded-2 shadow shadow-mobile-none p-4 mx-auto col-12 col-sm-8 col-md-5 col-lg-3">
+              <h2 class="mb-3 text-center">Reset Password</h2>
+              <form id="resetPasswordForm" novalidate>
+                <div class="mb-3">
+                  <label for="resetEmail" class="form-label">Email</label>
+                  <input type="email" class="form-control" id="resetEmail" required>
+                  <div class="invalid-feedback">Please provide your email address.</div>
+                </div>
+                <div class="mb-3">
+                  <label for="resetCode" class="form-label">Reset Code</label>
+                  <input type="text" class="form-control" id="resetCode" required>
+                  <div class="invalid-feedback">Please provide the reset code.</div>
+                </div>
+                <div class="mb-3">
+                  <label for="newPassword" class="form-label">New Password</label>
+                  <input type="password" class="form-control" id="newPassword" required>
+                  <div class="invalid-feedback">Please provide a new password.</div>
+                </div>
+                <div class="mb-3">
+                  <label for="confirmNewPassword" class="form-label">Confirm New Password</label>
+                  <input type="password" class="form-control" id="confirmNewPassword" required>
+                  <div class="invalid-feedback">Passwords must match.</div>
+                </div>
+                <button type="button" class="btn btn-primary" onclick="resetPassword()">Reset Password</button>
+                <button type="button" class="btn btn-secondary" onclick="showLoginScreen()">Cancel</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dashboard Screen -->
+        <div id="dashboardScreen" class="hidden">
+            <div class="min-vh-100 d-flex mt-1 align-items-start justify-content-center">
+                <div class="bg-white rounded-2 shadow shadow-mobile-none p-4 mx-auto col-12 col-lg-8">
+                    <div class="navbar-placeholder"></div>
+                    <!-- TenantFit Logo (add mt-2 for vertical alignment with navbar) -->
+                    <div class="mb-2">
+                        <span id="usageMeter" class="badge bg-info text-dark align-self-start align-self-sm-center mt-2 mt-sm-0">1 of 1 active listings used</span>
+                        <!-- <small class="text-muted">Want to add more? <a href="#">Upgrade here</a></small> -->
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle dashboard-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 50%;">Address</th>
+                                    <th>Candidates</th>
+                                    <th class="text-end d-table-cell">&nbsp;</th>
+                                </tr>
+                            </thead>
+                            <tbody id="propertiesTableBody">
+                                <!-- Properties will be rendered here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+        <!-- Public Property Screen -->
+        <div id="publicPropertyScreen" class="hidden">
+            <div class="min-vh-100 d-flex mt-1 align-items-start justify-content-center">
+                <div class="bg-white rounded-2 shadow shadow-mobile-none p-4 mx-auto col-12 col-lg-8">
+                    <!-- Property Info Section -->
+                    <div id="publicPropertyContent" class="card mb-4 border-primary">
+                        <div class="card-header bg-primary text-white">
+                            <h4 class="card-title mb-0" id="propertyAddress">Property Address</h4>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text" id="propertyDescription">Property description will be displayed here.</p>
+                            <p class="card-text">
+                                <a href="#" target="_blank" id="propertyLink" class="text-decoration-none text-primary">View Listing</a>
+                            </p>
+                            <p class="card-text">
+                                <small class="text-muted">Available: <span id="propertyAvailability">Availability date</span></small>
+                            </p>
+                        </div>
+                    </div>
+
+                    <form id="applyForm" novalidate>
+                        <h3 class="fw-bold text-dark mb-3">Rental Application Form</h3>
+                        <p>We’ll ask a few basic questions to help the landlord understand if you’re a good fit for the rental.</p>
+                        <p><strong>Please <span class="text-danger">do not enter</span> any of the following:</strong></p>
+                        <ul>
+                            <li>Full or partial names</li>
+                            <li>Specific home or work addresses</li>
+                            <li>Social Insurance Number (SIN) or passport number</li>
+                            <li>Credit card or banking information</li>
+                        </ul>
+                        <p class="text-muted">This form is anonymous and lightweight. While we take reasonable steps to protect your data, we intentionally avoid collecting or storing sensitive personal information at this stage.</p>
+
+                        <!-- Section: Basic Information -->
+                        <div class="mb-3">
+                            <label for="applicantEmail" class="form-label">Email Address <span class="text-danger">*</span></label>
+                            <input type="email" class="form-control" id="applicantEmail" required>
+                            <div class="form-text">Your email is not visible to the landlord and will be used for automated communication regarding your application status.</div>
+                            <div class="invalid-feedback">Please provide a valid email address.</div>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input type="checkbox" class="form-check-input" id="consentContact" required>
+                            <label for="consentContact" class="form-check-label">I consent to being contacted at the email address provided regarding my rental application.</label>
+                            <div class="invalid-feedback">You must consent to being contacted.</div>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input type="checkbox" class="form-check-input" id="consentNews">
+                            <label for="consentNews" class="form-check-label">I consent to receive occasional communication about news and new features of this website.</label>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="moveInDate" class="form-label">When are you planning to move in? <span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" id="moveInDate" required>
+                            <div class="invalid-feedback">Please provide a valid move-in date. It cannot be in the past.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="occupants" class="form-label">How many people will live in the unit? <span class="text-danger">*</span></label>
+                            <select class="form-select" id="occupants" required>
+                                <option value="">Select...</option>
+                                <option value="Just me">Just me</option>
+                                <option value="2 people">2 people</option>
+                                <option value="3 people">3 people</option>
+                                <option value="4 people">4 people</option>
+                                <option value="5 or more people">5 or more people</option>
+                            </select>
+                            <div class="invalid-feedback">Please select the number of occupants.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="smokers" class="form-label">Do you or anyone in your household smoke? <span class="text-danger">*</span></label>
+                            <select class="form-select" id="smokers" required>
+                                <option value="">Select...</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                            <div class="invalid-feedback">Please specify if there are smokers in the household.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="pets" class="form-label">Do you have any pets? <span class="text-danger">*</span></label>
+                            <select class="form-select" id="pets" required>
+                                <option value="">Select...</option>
+                                <option value="No">No</option>
+                                <option value="Yes — Small">Yes — Small (e.g., cat, small dog, fish)</option>
+                                <option value="Yes — Large">Yes — Large (e.g., large dog)</option>
+                                <option value="Yes — Exotic">Yes — Exotic (e.g., rat, rabbit, reptile)</option>
+                            </select>
+                            <div class="invalid-feedback">Please specify if you have pets.</div>
+                        </div>
+                        <div class="mb-3 hidden" id="petDetailsContainer">
+                            <label for="petDetails" class="form-label">Please describe number and type of your pets: <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="petDetails" rows="3" required></textarea>
+                            <div class="invalid-feedback">Please provide details about your pets.</div>
+                        </div>
+
+                        <!-- Section: Rental history -->
+                        <div class="mb-3">
+                            <label for="housingSituation" class="form-label">What is your current housing situation? <span class="text-danger">*</span></label>
+                            <select class="form-select" id="housingSituation" required>
+                                <option value="">Select...</option>
+                                <option value="Renting">Renting</option>
+                                <option value="Living with family">Living with family</option>
+                                <option value="Staying with friends">Staying with friends</option>
+                                <option value="Own my home">Own my home</option>
+                                <option value="Temporary housing">Temporary housing (e.g. sublet, hotel)</option>
+                                <option value="Other">Other (please specify)</option>
+                            </select>
+                            <div class="invalid-feedback">Please select your current housing situation.</div>
+                        </div>
+                        <div class="mb-3" id="housingSituationDetailsContainer" style="display:none;">
+                            <label for="housingSituationDetails" class="form-label">Please specify your housing situation:</label>
+                            <textarea id="housingSituationDetails" name="housingSituationDetails" class="form-control" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="residenceDuration" class="form-label">How long have you lived at your current residence? <span class="text-danger">*</span></label>
+                            <select class="form-select" id="residenceDuration" required>
+                                <option value="">Select...</option>
+                                <option value="Less than 6 months">Less than 6 months</option>
+                                <option value="6-12 months">6–12 months</option>
+                                <option value="1-3 years">1–3 years</option>
+                                <option value="3-5 years">3-5 years</option>
+                                <option value="5-10 years">5-10 years</option>
+                                <option value="Over 10 years">Over 10 years</option>
+                            </select>
+                            <div class="invalid-feedback">Please select how long you have lived at your current residence.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="reasonForMoving" class="form-label">Why are you moving? <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="reasonForMoving" rows="3" required></textarea>
+                            <div class="invalid-feedback">Please provide details about your move.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="privateLandlord" class="form-label">Have you rented from a private landlord before? <span class="text-danger">*</span></label>
+                            <select class="form-select" id="privateLandlord" required>
+                                <option value="">Select...</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No (first-time renter)">No (first-time renter)</option>
+                            </select>
+                            <div class="invalid-feedback">Please specify if you have rented from a private landlord before.</div>
+                        </div>
+
+                        <!-- Sub-section: Rental History Details -->
+                        <div id="rentalHistoryDetails" class="hidden">
+                            <div class="mb-3">
+                                <label for="rentalUnits" class="form-label">How many rental units have you lived in within the past 5 years? <span class="text-danger">*</span></label>
+                                <select class="form-select" id="rentalUnits" required>
+                                    <option value="">Select...</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="More than 5">More than 5</option>
+                                </select>
+                                <div class="invalid-feedback">Please select the number of rental units.</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="rentDifficulty" class="form-label">Have you ever had difficulty paying rent on time in the past 2 years? <span class="text-danger">*</span></label>
+                                <select class="form-select" id="rentDifficulty" required>
+                                    <option value="">Select...</option>
+                                    <option value="No">No</option>
+                                    <option value="Yes">Yes</option>
+                                </select>
+                                <div class="invalid-feedback">Please specify if you have had difficulty paying rent.</div>
+                            </div>
+                            <div class="mb-3" id="rentDifficultyDetailsContainer" style="display: none;">
+                                <label for="rentDifficultyDetails" class="form-label">Please briefly explain: <span class="text-danger">*</span></label>
+                                <textarea class="form-control" id="rentDifficultyDetails" rows="3" required></textarea>
+                                <div class="invalid-feedback">Please provide details about your rent difficulty.</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="tenancyNotice" class="form-label">Have you ever received a formal notice from a landlord to end a tenancy? <span class="text-danger">*</span></label>
+                                <select class="form-select" id="tenancyNotice" required>
+                                    <option value="">Select...</option>
+                                    <option value="No">No</option>
+                                    <option value="Yes">Yes</option>
+                                </select>
+                                <div class="invalid-feedback">Please specify if you have received a formal notice.</div>
+                            </div>
+                            <div class="mb-3" id="tenancyNoticeDetailsContainer" style="display: none;">
+                                <label for="tenancyNoticeDetails" class="form-label">Please briefly explain: <span class="text-danger">*</span></label>
+                                <textarea class="form-control" id="tenancyNoticeDetails" rows="3" required></textarea>
+                                <div class="invalid-feedback">Please provide details about the notice.</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="rentalDispute" class="form-label">Have you been involved in any disputes related to a rental property that you feel would be helpful to disclose or explain? <span class="text-danger">*</span></label>
+                                <select class="form-select" id="rentalDispute" required>
+                                    <option value="">Select...</option>
+                                    <option value="No">No</option>
+                                    <option value="Yes">Yes</option>
+                                </select>
+                                <div class="invalid-feedback">Please specify if you have been involved in a rental dispute.</div>
+                            </div>
+                            <div class="mb-3" id="rentalDisputeDetailsContainer" style="display: none;">
+                                <label for="rentalDisputeDetails" class="form-label">Please briefly explain: <span class="text-danger">*</span></label>
+                                <textarea class="form-control" id="rentalDisputeDetails" rows="3" required></textarea>
+                                <div class="invalid-feedback">Please provide details about the dispute.</div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="businessActivity" class="form-label">Do you plan to operate any business or commercial activity from the rental property? <span class="text-danger">*</span></label>
+                            <select class="form-select" id="businessActivity" required>
+                                <option value="">Select...</option>
+                                <option value="No">No</option>
+                                <option value="Yes">Yes</option>
+                            </select>
+                            <div class="invalid-feedback">Please specify if you plan to operate a business or commercial activity.</div>
+                        </div>
+                        <div class="mb-3" id="businessActivityDetailsContainer" style="display: none;">
+                            <label for="businessActivityDetails" class="form-label">Please briefly explain: <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="businessActivityDetails" rows="3" required></textarea>
+                            <div class="invalid-feedback">Please provide details about your business activity.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="vehicles" class="form-label">How many vehicles do you plan to park at the property? <span class="text-danger">*</span></label>
+                            <select class="form-select" id="vehicles" required>
+                                <option value="">Select...</option>
+                                <option value="None">None</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="More than 4">More than 4</option>
+                            </select>
+                            <div class="invalid-feedback">Please specify the number of vehicles you plan to park.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="specialVehicles" class="form-label">Do you own any vehicles that require special storage or parking (e.g., motorcycle, boat, RV, trailer)?</label>
+                            <select class="form-select" id="specialVehicles" required>
+                                <option value="">Select...</option>
+                                <option value="None">None</option>
+                                <option value="Yes — Motorcycle">Yes — Motorcycle</option>
+                                <option value="Yes — Boat">Yes — Boat</option>
+                                <option value="Yes — RV or Trailer">Yes — RV or Trailer</option>
+                                <option value="Yes — Other">Yes — Other</option>
+                            </select>
+                            <div class="invalid-feedback">Please specify if you own any special vehicles.</div>
+                        </div>
+                        <div class="mb-3" id="specialVehiclesDetailsContainer" style="display: none;">
+                            <label for="specialVehiclesDetails" class="form-label">Please briefly explain: <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="specialVehiclesDetails" rows="3" required></textarea>
+                            <div class="invalid-feedback">Please provide details about your special vehicles.</div>
+                        </div>
+                        <div class="mt-5">
+                            <p><em>Income and employment information is requested only to assess ability to pay rent. We do not discriminate based on the source of income.</em></p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="grossIncome" class="form-label">What is your approximate gross monthly income? <span class="text-danger">*</span></label>
+                            <select class="form-select" id="grossIncome" required>
+                                <option value="">Select...</option>
+                                <option value="Under $1000">Under $1000</option>
+                                <option value="$1000 - $2000">$1000 - $2000</option>
+                                <option value="$2000 - $3000">$2000 - $3000</option>
+                                <option value="$3000 - $4000">$3000 - $4000</option>
+                                <option value="$5000 - $6000">$5000 - $6000</option>
+                                <option value="$7000 - $8000">$7000 - $8000</option>
+                                <option value="$8000 - $9000">$8000 - $9000</option>
+                                <option value="$9000 - $10000">$9000 - $10000</option>
+                                <option value="Over $10000">Over $10000</option>
+                            </select>
+                            <div class="invalid-feedback">Please select your gross monthly income.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="employmentStatus" class="form-label">What is your current employment status? <span class="text-danger">*</span></label>
+                            <select class="form-select" id="employmentStatus" required>
+                                <option value="">Select...</option>
+                                <option value="Employed Full-Time">Employed Full-Time</option>
+                                <option value="Employed Part-Time">Employed Part-Time</option>
+                                <option value="Self-Employed">Self-Employed</option>
+                                <option value="Unemployed">Unemployed</option>
+                                <option value="Retired">Retired</option>
+                                <option value="Student">Student</option>
+                            </select>
+                            <div class="invalid-feedback">Please select your employment status.</div>
+                        </div>
+
+                        <!-- Sub-section: Employment details -->
+                        <div id="employmentDetails" style="display: none;">
+                            <div class="mb-3">
+                                <label for="profession" class="form-label">What is your current profession, field of work, or study? <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="profession" required>
+                                <div class="invalid-feedback">Please provide your profession or field of work.</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="employmentDuration" class="form-label">How long have you been with your current employer (or running your business)? <span class="text-danger">*</span></label>
+                                <select class="form-select" id="employmentDuration" required>
+                                    <option value="">Select...</option>
+                                    <option value="Less than 6 months">Less than 6 months</option>
+                                    <option value="6-12 months">6-12 months</option>
+                                    <option value="1-3 years">1-3 years</option>
+                                    <option value="3-5 years">3-5 years</option>
+                                    <option value="5-10 years">5-10 years</option>
+                                    <option value="Over 10 years">Over 10 years</option>
+                                </select>
+                                <div class="invalid-feedback">Please select the duration of your employment.</div>
+                            </div>
+                        </div>
+
+                        <div class="section-title">Summary</div>
+                        <div class="mb-3">
+                            <label for="additionalInfo" class="form-label">Is there anything else you would like to share that might support your application?</label>
+                            <textarea class="form-control" id="additionalInfo" rows="3"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="creditConsent" class="form-label">Do you consent to a credit, public records, or background check if requested at a later stage in the process? <span class="text-danger">*</span></label>
+                            <select class="form-select" id="creditConsent" required>
+                                <option value="">Select...</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                            <div class="form-text">Your response helps the landlord understand how you'd prefer to proceed and may affect the application, depending on the landlord’s screening requirements.</div>
+                            <div class="invalid-feedback">Please specify your consent preference.</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="checkbox" id="declaration1" required>
+                            <label for="declaration1" class="form-check-label">I declare that the information I provided is true and complete to the best of my knowledge.</label>
+                            <div class="invalid-feedback">You must agree to this declaration.</div>
+                        </div>
+                        <div class="mb-3">
+                            <input type="checkbox" id="declaration2" required>
+                            <label for="declaration2" class="form-check-label">I understand that providing false information may result in my application being declined.</label>
+                            <div class="invalid-feedback">You must agree to this declaration.</div>
+                        </div>
+
+                        <div id="applyFormErrors" class="text-danger mb-3 hidden"></div>
+                        <button type="button" class="btn btn-primary" onclick="submitApplication()">Submit Application</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add/Edit Property Screen -->
+        <div id="addPropertyScreen" class="hidden">
+            <div class="min-vh-100 d-flex mt-1 align-items-start justify-content-center">
+                <div class="bg-white rounded-2 shadow shadow-mobile-none p-4 mx-auto col-12 col-lg-8">
+                    <div class="navbar-placeholder"></div>
+                    <!-- Breadcrumb Start -->
+                    <nav aria-label="breadcrumb" class="mb-2">
+                        <ol class="breadcrumb small">
+                            <li class="breadcrumb-item"><a href="javascript:void(0)" onclick="showDashboardScreen()">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Add/Edit Property</li>
+                        </ol>
+                    </nav>
+                    <!-- Breadcrumb End -->
+                    <!-- <h2 id="propertyFormTitle">Add New Property</h2> -->
+                    <form id="addPropertyForm" novalidate>
+                        <input type="hidden" id="property_id">
+                        <div class="mb-3">
+                            <label for="property_address" class="form-label">Address <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="property_address" required>
+                            <div class="invalid-feedback">Please provide an address.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="property_description" class="form-label">Description <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="property_description" rows="3" required></textarea>
+                            <div class="invalid-feedback">Please provide a description.</div>
+                        </div>
+                        <!-- BEGIN: Bedrooms Count -->
+                        <div class="mb-3">
+                            <label for="property_bedrooms" class="form-label">Bedrooms Count <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" id="property_bedrooms" required min="0" step="1">
+                            <div class="invalid-feedback">Please provide the number of bedrooms</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="property_parking" class="form-label">Parking Space Count <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" id="property_parking" required min="0" step="1">
+                            <div class="invalid-feedback">Please provide the number of parking spaces</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="property_link" class="form-label">Link (Optional)</label>
+                            <input type="url" class="form-control" id="property_link">
+                            <div class="invalid-feedback">Please provide a valid link.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="property_availability" class="form-label">Availability Date <span class="text-danger">*</span></label>
+                            <input type="date" class="form-control" id="property_availability" required>
+                            <div class="invalid-feedback">Please provide the availability date.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="property_rent" class="form-label">Rent ($) <span class="text-danger">*</span></label>
+                            <input type="number" class="form-control" id="property_rent" required>
+                            <div class="invalid-feedback">Please provide the rent amount.</div>
+                        </div>
+                        <button type="button" class="btn btn-primary" id="savePropertyButton" onclick="saveProperty()">Save</button>
+                        <button type="button" class="btn btn-secondary" onclick="showDashboardScreen()">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feedback Screen -->
+        <div id="feedbackScreen" class="hidden">
+            <div class="min-vh-100 d-flex mt-1 align-items-start justify-content-center">
+                <div class="bg-white rounded-2 shadow shadow-mobile-none p-4 mx-auto col-12 col-lg-8">
+                    <div class="navbar-placeholder"></div>
+                    <!-- Breadcrumb Start -->
+                    <nav aria-label="breadcrumb" class="mb-2">
+                        <ol class="breadcrumb small">
+                            <li class="breadcrumb-item"><a href="javascript:void(0)" onclick="showDashboardScreen()">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Feedback</li>
+                        </ol>
+                    </nav>
+                    <!-- Breadcrumb End -->
+                    <!-- <h2 id="propertyFormTitle">Add New Property</h2> -->
+                    <form id="feedbackForm" novalidate>
+                        <input type="hidden" id="property_id">
+                        <div class="mb-3">
+                            <label for="feedback_text" class="form-label">Feedback <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="feedback_text" rows="10" required></textarea>
+                            <div class="invalid-feedback">Please provide your feedback.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="feedback_email" class="form-label">Email (Optional)</label>
+                            <input type="text" class="form-control" id="feedback_email">
+                            <div class="invalid-feedback">Please provide a valid email.</div>
+                        </div>
+                        <button type="button" class="btn btn-primary" id="giveFeedbackButton" onclick="sendFeedback()">Send Feedback</button>
+                        <button type="button" class="btn btn-secondary" onclick="showDashboardScreen()">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tenant Candidates Screen -->
+        <div id="tenantCandidatesScreen" class="hidden">
+            <div class="min-vh-100 d-flex mt-1 align-items-start justify-content-center">
+                <div class="bg-white rounded-2 shadow shadow-mobile-none p-4 mx-auto col-12 col-lg-8">
+                    <div class="navbar-placeholder"></div>
+                    <nav aria-label="breadcrumb" class="mb-2">
+                        <ol class="breadcrumb small">
+                            <li class="breadcrumb-item"><a href="javascript:void(0)" onclick="showDashboardScreen()">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Tenant Candidates</li>
+                        </ol>
+                    </nav>
+                    <div id="tenantCandidatesContent" class="mt-4"></div>
+                    <p><small>* This score is a tool to help organize and compare applicants based on self-reported information. It is not used to automatically accept or reject tenants.</small></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Confirmation Screen -->
+        <div id="confirmationScreen" class="hidden">
+            <h2>Confirm Your Application</h2>
+            <div id="confirmationContent" class="mt-4"></div>
+            <button type="button" class="btn btn-primary" onclick="finalSubmitApplication()">Submit</button>
+            <button type="button" class="btn btn-secondary" onclick="showPublicPropertyScreen()">Change</button>
+        </div>
+
+        <!-- Thank You Screen -->
+        <div id="thankYouScreen" class="hidden">
+            <div class="thank-you-screen">
+                <h2>Thank You!</h2>
+                <p id="thankYouMessage"></p>
+            </div>
+        </div>
+
+        <!-- Candidate Details Screen -->
+        <div id="candidateDetailsScreen" class="hidden">
+            <div class="min-vh-100 d-flex mt-1 align-items-start justify-content-center">
+                <div class="bg-white rounded-2 shadow shadow-mobile-none p-4 mx-auto col-12 col-lg-8">
+                    <div class="navbar-placeholder"></div>
+                    <nav aria-label="breadcrumb" class="mb-2">
+                        <ol class="breadcrumb small">
+                            <li class="breadcrumb-item"><a href="javascript:void(0)" onclick="showDashboardScreen()">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="javascript:void(0)" onclick="backToTenantCandidatesScreen()">Tenant Candidates</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Candidate Details</li>
+                        </ol>
+                    </nav>
+                    <div id="candidateDetailsContent" class="mt-4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="alertContainer" class="alert hidden" role="alert" style="position: fixed; top: 10px; right: 10px; z-index: 1050;"></div>
+    <div id="overlay" class="d-none position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-25 justify-content-center align-items-center" style="z-index:2000;">
+        <div class="spinner-border text-primary" role="status" style="width:3rem;height:3rem;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <template id="candidateDetailsTemplate">
+        <div class="tenant-details-card shadow-none border-0 px-0">
+            <div class="my-md-4">
+                <div class="row">
+                    <div class="col-6">
+                        <span id="candidateScoreBadge" class="badge">
+                            Score: <span class="score-value"></span>
+                        </span>
+                    </div>
+                    <div class="col-6 text-end">
+                        <button type="button" class="btn btn-primary" id="emailCandidateBtn" onclick="showEmailCandidateScreen()">
+                            <i class="bi bi-envelope"></i> Email <span class="d-none d-md-inline">candidate</span> 
+                        </button>
+                    </div>
+                </div>
+                <div id="lastEmailSentInfo" class="mb-3 text-muted small"></div>
+                <div class="container-fluid px-0">
+                    <div class="row mb-2">
+                        <div class="col-5 col-md-4 text-end fw-medium text-secondary">Application Date</div>
+                        <div class="col-7 col-md-8" data-field="applicationdate"></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5 col-md-4 text-end fw-medium text-secondary">Move-in Date</div>
+                        <div class="col-7 col-md-8" data-field="moveindate"></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5 col-md-4 text-end fw-medium text-secondary">Number of Occupants</div>
+                        <div class="col-7 col-md-8" data-field="occupants"></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5 col-md-4 text-end fw-medium text-secondary">Smokers</div>
+                        <div class="col-7 col-md-8" data-field="smokers"></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5 col-md-4 text-end fw-medium text-secondary">Pets</div>
+                        <div class="col-7 col-md-8" data-field="pets"></div>
+                    </div>
+                    <div class="row mb-2 pet-details-item" style="display:none;">
+                        <div class="col-5 col-md-4 text-end fw-medium text-secondary">Pet Details</div>
+                        <div class="col-7 col-md-8" data-field="petdetails"></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5 col-md-4 text-end fw-medium text-secondary">Vehicles</div>
+                        <div class="col-7 col-md-8" data-field="vehicles"></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5 col-md-4 text-end fw-medium text-secondary">Special Vehicles</div>
+                        <div class="col-7 col-md-8" data-field="specialVehicles"></div>
+                    </div>
+                    <div class="row mb-2 special-vehicles-details-item" style="display:none;">
+                        <div class="col-5 col-md-4 text-end fw-medium text-secondary">Special Vehicles Details</div>
+                        <div class="col-7 col-md-8" data-field="specialVehiclesDetails"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="my-4">
+                <h4>Rental History</h4>
+                <div class="container-fluid px-0">
+                    <div class="row mb-2">
+                        <div class="col-5 col-md-4 text-end fw-medium text-secondary">Current Housing</div>
+                        <div class="col-7 col-md-8" data-field="housingSituation"></div>
+                    </div>
+                    <div class="row mb-2 housing-situation-details-item" style="display:none;">
+                        <div class="col-5 col-md-4 text-end fw-medium text-secondary">Housing Situation Details</div>
+                        <div class="col-7 col-md-8" data-field="housingSituationDetails"></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5 col-md-4 text-end fw-medium text-secondary">Residence Duration</div>
+                        <div class="col-7 col-md-8" data-field="residenceDuration"></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5 col-md-4 text-end fw-medium text-secondary">Reason for Moving</div>
+                        <div class="col-7 col-md-8" data-field="reasonForMoving"></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5 col-md-4 text-end fw-medium text-secondary">Private Landlord Before?</div>
+                        <div class="col-7 col-md-8" data-field="privateLandlord"></div>
+                    </div>
+                    <div class="row mb-2 rental-units-item" style="display:none;">
+                        <div class="col-5 col-md-4 text-end fw-medium text-secondary">Rental Units (last 5y)</div>
+                        <div class="col-7 col-md-8" data-field="rentalUnits"></div>
+                    </div>
+                    <div class="row mb-2 rent-difficulty-item" style="display:none;">
+                        <div class="col-5 col-md-4 text-end fw-medium text-secondary">Rent Difficulty</div>
+                        <div class="col-7 col-md-8" data-field="rentDifficulty"></div>
+                    </div>
+                    <div class="row mb-2 rent-difficulty-details-item" style="display:none;">
+                        <div class="col-5 col-md-4 text-end fw-medium text-secondary">Rent Difficulty Details</div>
+                        <div class="col-7 col-md-8" data-field="rentDifficultyDetails"></div>
+                    </div>
+                    <div class="row mb-2 tenancy-notice-item" style="display:none;">
+                        <div class="col-5 col-md-4 text-end fw-medium text-secondary">Tenancy Notice</div>
+                        <div class="col-7 col-md-8" data-field="tenancyNotice"></div>
+                    </div>
+                    <div class="row mb-2 tenancy-notice-details-item" style="display:none;">
+                        <div class="col-5 col-md-4 text-end fw-medium text-secondary">Tenancy Notice Details</div>
+                        <div class="col-7 col-md-8" data-field="tenancyNoticeDetails"></div>
+                    </div>
+                    <div class="row mb-2 rental-dispute-item" style="display:none;">
+                        <div class="col-5 col-md-4 text-end fw-medium text-secondary">Rental Dispute</div>
+                        <div class="col-7 col-md-8" data-field="rentalDispute"></div>
+                    </div>
+                    <div class="row mb-2 rental-dispute-details-item" style="display:none;">
+                        <div class="col-5 col-md-4 text-end fw-medium text-secondary">Rental Dispute Details</div>
+                        <div class="col-7 col-md-8" data-field="rentalDisputeDetails"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="my-4">
+                <h4>Employment & Income</h4>
+                <div class="container-fluid px-0">
+                    <div class="row mb-2">
+                        <div class="col-5 col-md-4 text-end fw-medium text-secondary">Employment Status</div>
+                        <div class="col-7 col-md-8" data-field="employmentstatus"></div>
+                    </div>
+                    <div class="row mb-2 profession-item" style="display:none;">
+                        <div class="col-5 col-md-4 text-end fw-medium text-secondary">Profession / Field</div>
+                        <div class="col-7 col-md-8" data-field="profession"></div>
+                    </div>
+                    <div class="row mb-2 employment-duration-item" style="display:none;">
+                        <div class="col-5 col-md-4 text-end fw-medium text-secondary">Employment Duration</div>
+                        <div class="col-7 col-md-8" data-field="employmentDuration"></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5 col-md-4 text-end fw-medium text-secondary">Gross Monthly Income</div>
+                        <div class="col-7 col-md-8" data-field="grossIncome"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="my-4">
+                <h4>Business & Other</h4>
+                <div class="container-fluid px-0">
+                    <div class="row mb-2">
+                        <div class="col-5 col-md-4 text-end fw-medium text-secondary">Business Activity</div>
+                        <div class="col-7 col-md-8" data-field="businessActivity"></div>
+                    </div>
+                    <div class="row mb-2 business-activity-details-item" style="display:none;">
+                        <div class="col-5 col-md-4 text-end fw-medium text-secondary">Business Activity Details</div>
+                        <div class="col-7 col-md-8" data-field="businessActivityDetails"></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5 col-md-4 text-end fw-medium text-secondary">Consent to Credit/Background Check</div>
+                        <div class="col-7 col-md-8" data-field="creditConsent"></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5 col-md-4 text-end fw-medium text-secondary">Additional Info</div>
+                        <div class="col-7 col-md-8" data-field="additionalInfo"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="my-4">
+                <h4>Declarations</h4>
+                <div class="container-fluid px-0">
+                    <div class="row mb-2">
+                        <div class="col-5 col-md-4 text-end fw-medium text-secondary">Declaration: Info is True</div>
+                        <div class="col-7 col-md-8" data-field="declaration1"></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5 col-md-4 text-end fw-medium text-secondary">Declaration: No False Info</div>
+                        <div class="col-7 col-md-8" data-field="declaration2"></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5 col-md-4 text-end fw-medium text-secondary">Consent to Contact</div>
+                        <div class="col-7 col-md-8" data-field="consentcontact"></div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-5 col-md-4 text-end fw-medium text-secondary">Consent to News</div>
+                        <div class="col-7 col-md-8" data-field="consentnews"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="tenantCandidateRowTemplate">
+        <tr>
+            <td data-label="Move-In Date"></td>
+            <td data-label="Occupants"></td>
+            <td data-label="Employment Status" class="d-none d-md-table-cell"></td>
+            <td data-label="Profession" class="d-none d-lg-table-cell"></td>
+            <td data-label="Gross Income" class="d-none d-lg-table-cell"></td>
+            <td data-label="Vehicles" class="d-none d-md-table-cell"></td>
+            <td data-label="Score"></td>
+            <td data-label="Application Date" class="d-none d-md-table-cell"></td>
+            <td data-label="Details">
+                <a href="javascript:void(0)">View</a>
+            </td>
+        </tr>
+    </template>
+
+    <!-- Email Candidate Screen -->
+    <div id="emailCandidateScreen" class="hidden">
+        <div class="min-vh-100 d-flex mt-1 align-items-start justify-content-center">
+            <div class="bg-white rounded-2 shadow shadow-mobile-none p-4 mx-auto col-12 col-lg-8">
+                <div class="navbar-placeholder"></div>
+                <nav aria-label="breadcrumb" class="mb-2">
+                    <ol class="breadcrumb small">
+                        <li class="breadcrumb-item"><a href="javascript:void(0)" onclick="showDashboardScreen()">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="javascript:void(0)" onclick="backToTenantCandidatesScreen()">Tenant Candidates</a></li>
+                        <li class="breadcrumb-item"><a href="javascript:void(0)" onclick="backToCandidateDetailsScreen()">Candidate Details</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Email Candidate</li>
+                    </ol>
+                </nav>
+                <div id="emailCandidateMessage" class="mb-2 text-danger" style="display:none;"></div>
+                <div class="mb-3">
+                    <input type="text" id="emailCandidateSubject" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <textarea id="emailCandidateText" class="form-control" rows="15" required></textarea>
+                </div>
+                <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-primary" onclick="sendEmailToCandidate()">Send</button>
+                    <button type="button" class="btn btn-secondary" onclick="backToCandidateDetailsScreen()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <template id="navbarTemplate">
+        <nav class="navbar navbar-expand-lg navbar-light mb-3 rounded pt-0">
+            <div class="container-fluid">
+                <a class="navbar-brand fw-bold" href="javascript:void(0)" onclick="showDashboardScreen()">TenantFit</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#dashboardNavbar" aria-controls="dashboardNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="dashboardNavbar">
+                    <div class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <a class="nav-item nav-link" href="javascript:void(0)" onclick="showAddPropertyScreen()">Add Property</a>
+                        <a class="nav-item nav-link" href="javascript:void(0)" onclick="showFeedbackScreen()">Feedback</a>
+                        <a class="nav-item nav-link" href="https://tenantfit.ca/blog/" target="_blank">Blog</a>
+                        <a class="nav-item nav-link" href="javascript:void(0)" onclick="logout()">Log Out</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </template>
+    
+
+    <script src="code.js?ts=1753555582"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

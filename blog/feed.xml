@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <author>TenantFit</author>
+    <title>TenantFit Blog</title>
+    
+    <entry>
+        <title>Tenant Screening Guide for Landlords - Part 2 - Background Screening</title>
+        <link href="https://tenantfit.ca/blog//tenant-screening-process-p2-background/"/>
+        <content type="html">Tenant Screening Guide for Landlords - Part 2 - Background Screening</content>
+        <published>2025-07-10T21:30:00</published>
+    </entry>
+    
+    <entry>
+        <title>Tenant Screening Guide for Landlords - Part 1 - Pre-Screening</title>
+        <link href="https://tenantfit.ca/blog//tenant-screening-process-p1-prescreening/"/>
+        <content type="html">Tenant Screening Guide for Landlords - Part 1 - Pre-Screening</content>
+        <published>2025-07-06T21:30:00</published>
+    </entry>
+    
+    <entry>
+        <title>🚀 TenantFit Is Now Open for Registration!</title>
+        <link href="https://tenantfit.ca/blog//tenantfit-open-registration/"/>
+        <content type="html">🚀 TenantFit Is Now Open for Registration!</content>
+        <published>2025-06-30T21:30:00</published>
+    </entry>
+    
+    <entry>
+        <title>Tired of Dead-End Rental Inquiries That Go Nowhere? So Are We</title>
+        <link href="https://tenantfit.ca/blog//tired-dead-end-rental-inquiries-mvp/"/>
+        <content type="html">Tired of Dead-End Rental Inquiries That Go Nowhere? So Are We</content>
+        <published>2025-06-02T21:30:00</published>
+    </entry>
+    
+</feed>
