@@ -1,3 +1,4 @@
+const baseUrl = "https://api.tenantfit.ca";
 
 function saveLead(e) {
     e.preventDefault();
@@ -5,7 +6,7 @@ function saveLead(e) {
     const agreedToReceiveNews = document.getElementById('agreedToReceiveNews').checked;
     const source = leadForm.querySelector('input[name="leadSource"]').value;
 
-    fetch('/save-prescreening-lead', {
+    fetch(baseUrl + '/save-prescreening-lead', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
