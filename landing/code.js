@@ -45,10 +45,10 @@ function showAlert(message, type = 'success') {
     const alertContainer = document.getElementById('alertContainer');
     alertContainer.textContent = message;
     alertContainer.className = `alert alert-${type}`;
-    alertContainer.classList.remove('hidden');
+    alertContainer.classList.remove('d-none');
 
     setTimeout(() => {
-        alertContainer.classList.add('hidden');
+        alertContainer.classList.add('d-none');
     }, 3000); // Disappear after 3 seconds
 }
 
