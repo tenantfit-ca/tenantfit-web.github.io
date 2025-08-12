@@ -494,6 +494,73 @@ function updateUsageMeter(propertyCount, maxProperties) {
     }
 }
 
+function createNoWrapText(val) {
+    const span = document.createElement('span');
+    span.setAttribute('class', 'text-nowrap');
+    span.textContent = val;
+    return span;
+}
+
+function createExpandableText(val, maxLength = 29) {
+    if (!val || typeof val !== 'string' || val.length <= maxLength) {
+        return document.createTextNode(val || '');
+    }
+    const shortText = val.slice(0, maxLength) + '...';
+    let expanded = false;
+    const span = document.createElement('span');
+    function renderText() {
+        span.innerHTML = '';
+        const textNode = document.createTextNode(expanded ? val + ' ' : shortText + ' ');
+        span.appendChild(textNode);
+        span.appendChild(btn);
+        span.setAttribute('data-expanded', expanded ? 'true' : 'false');
+    }
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'btn btn-link btn-sm p-0 align-baseline';
+    btn.innerHTML = '<i class="bi bi-arrows-angle-expand"></i>';
+    btn.setAttribute('aria-label', 'Show more');
+    btn.onclick = function() {
+        expanded = !expanded;
+        btn.innerHTML = expanded ? '<i class="bi bi-arrows-angle-contract"></i>' : '<i class="bi bi-arrows-angle-expand"></i>';
+        btn.setAttribute('aria-label', expanded ? 'Show less' : 'Show more');
+        renderText();
+    };
+    renderText();
+    return span;
+}
+
+function createExpandableTextInLink(val, maxLength = 30) {
+    if (!val || typeof val !== 'string' || val.length <= maxLength) {
+        return document.createTextNode(val || '');
+    }
+    const shortText = val.slice(0, maxLength) + '...';
+    let expanded = false;
+    const span = document.createElement('span');
+    function renderText() {
+        span.innerHTML = '';
+        const textNode = document.createTextNode(expanded ? val + ' ' : shortText + ' ');
+        span.appendChild(textNode);
+        span.appendChild(btn);
+        span.setAttribute('data-expanded', expanded ? 'true' : 'false');
+    }
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'btn btn-link btn-sm p-0 align-baseline';
+    btn.innerHTML = '<i class="bi bi-arrows-angle-expand"></i>';
+    btn.setAttribute('aria-label', 'Show more');
+    btn.onclick = function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        expanded = !expanded;
+        btn.innerHTML = expanded ? '<i class="bi bi-arrows-angle-contract"></i>' : '<i class="bi bi-arrows-angle-expand"></i>';
+        btn.setAttribute('aria-label', expanded ? 'Show less' : 'Show more');
+        renderText();
+    };
+    renderText();
+    return span;
+}
+
 function renderProperties(properties) {
     const tbody = document.getElementById('propertiesTableBody');
     if (tbody) {
@@ -501,21 +568,40 @@ function renderProperties(properties) {
         properties.forEach(prop => {
             const publicUrl = `${window.location.origin + window.location.pathname}#publicProperty?id=${prop.id}`;
             const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td class="text-break">
-                    <i class="bi bi-pencil-square text-primary me-2" role="button" title="Edit" onclick="editProperty('${prop.id}')"></i>
-                    <a href="javascript:void(0)" onclick="editProperty('${prop.id}')">${prop.address}</a>
-                </td>
-                <td>
-                    <a href="javascript:void(0)" onclick="showTenantCandidatesScreen('${prop.id}')">${prop.candidatesCount || 0}</a>
-                </td>
-                <td class="text-end">
-                    <button class="btn btn-sm btn-outline-primary bg-success" title="Copy Link" onclick="copyLink('${publicUrl}')">
-                        <i class="bi bi-clipboard"></i>
-                        <span class="visually-hidden">Copy Link</span>
-                    </button>
-                </td>
-            `;
+            // Address cell with expand/collapse inside link
+            const addressTd = document.createElement('td');
+            addressTd.className = 'text-break';
+            const editIcon = document.createElement('i');
+            editIcon.className = 'bi bi-pencil-square text-primary me-2';
+            editIcon.setAttribute('role', 'button');
+            editIcon.title = 'Edit';
+            editIcon.onclick = () => editProperty(prop.id);
+            addressTd.appendChild(editIcon);
+            const addressLink = document.createElement('a');
+            addressLink.href = 'javascript:void(0)';
+            addressLink.onclick = () => editProperty(prop.id);
+            // Use expandable text inside the link, with maxLength 40 for dashboard
+            addressLink.appendChild(createExpandableTextInLink(prop.address, 40));
+            addressTd.appendChild(addressLink);
+            // Candidates count
+            const candidatesTd = document.createElement('td');
+            const candidatesLink = document.createElement('a');
+            candidatesLink.href = 'javascript:void(0)';
+            candidatesLink.onclick = () => showTenantCandidatesScreen(prop.id);
+            candidatesLink.textContent = prop.candidatesCount || 0;
+            candidatesTd.appendChild(candidatesLink);
+            // Copy link button
+            const copyTd = document.createElement('td');
+            copyTd.className = 'text-end';
+            const copyBtn = document.createElement('button');
+            copyBtn.className = 'btn btn-sm btn-outline-primary bg-success';
+            copyBtn.title = 'Copy Link';
+            copyBtn.onclick = () => copyLink(publicUrl);
+            copyBtn.innerHTML = '<i class="bi bi-clipboard"></i><span class="visually-hidden">Copy Link</span>';
+            copyTd.appendChild(copyBtn);
+            tr.appendChild(addressTd);
+            tr.appendChild(candidatesTd);
+            tr.appendChild(copyTd);
             tbody.appendChild(tr);
         });
     }
@@ -551,15 +637,14 @@ function showTenantCandidatesScreen(propertyId) {
                 table.innerHTML = `
                     <thead>
                         <tr>
-                            <th>Move-In</th>
-                            <th>Occupants</th>
-                            <th class="d-none d-md-table-cell">Employment</th>
-                            <th class="d-none d-lg-table-cell">Profession</th>
-                            <th class="d-none d-lg-table-cell">Income</th>
-                            <th class="d-none d-md-table-cell">Vehicles</th>
-                            <th>Score*</th>
-                            <th class="d-none d-md-table-cell">Date</th>
-                            <th>Details</th>
+                            <th style="white-space:nowrap;font-size:1em;width:8%;">Move-In</th>
+                            <th style="white-space:nowrap;font-size:1em;width:11%;">Occupants</th>
+                            <th style="white-space:nowrap;font-size:1em;width:13%;">Employment</th>
+                            <th style="white-space:nowrap;font-size:1em;width:13%;">Profession</th>
+                            <th style="white-space:nowrap;font-size:1em;width:13%;">Income</th>
+                            <th style="white-space:nowrap;font-size:1em;width:8%;">Vehicles</th>
+                            <th style="white-space:nowrap;font-size:1em;width:13%;">Date</th>
+                            <th style="white-space:nowrap;font-size:1em;width:13%;">Details</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -569,25 +654,29 @@ function showTenantCandidatesScreen(propertyId) {
                 data.candidates.forEach(candidate => {
                     const row = rowTemplate.content.cloneNode(true);
                     const tds = row.querySelectorAll('td');
-                    tds[0].textContent = candidate.moveInDate || '';
-                    tds[1].textContent = candidate.occupants || '';
-                    tds[2].textContent = candidate.employmentStatus || '';
-                    tds[3].textContent = candidate.profession || '';
-                    tds[4].textContent = candidate.grossIncome || '';
-                    tds[5].textContent = candidate.vehicles || '';
-                    tds[6].textContent = candidate.score !== undefined && candidate.score !== null ? candidate.score : '';
-                    tds[7].textContent = candidate.applicationDate || '';
+                    // Clear tds before appending expandable text
+                    tds[0].innerHTML = '';
+                    tds[0].appendChild(createNoWrapText(candidate.moveInDate || ''));
+                    tds[1].innerHTML = '';
+                    tds[1].appendChild(createExpandableText(candidate.occupants || ''));
+                    tds[2].innerHTML = '';
+                    tds[2].appendChild(createExpandableText(candidate.employmentStatus || ''));
+                    tds[3].innerHTML = '';
+                    tds[3].appendChild(createExpandableText(candidate.profession || ''));
+                    tds[4].innerHTML = '';
+                    tds[4].appendChild(createExpandableText(candidate.grossIncome || ''));
+                    tds[5].innerHTML = '';
+                    tds[5].appendChild(createExpandableText(candidate.vehicles || ''));
+                    tds[6].innerHTML = '';
+                    tds[6].appendChild(createExpandableText(candidate.applicationDate || ''));
                     // Details link + email icon if lastEmailSent
-                    const detailsLink = tds[8].querySelector('a');
+                    const detailsLink = tds[7].querySelector('a');
                     detailsLink.onclick = () => showCandidateDetailsScreen(candidate.id);
-
-                    // Add email icon if lastEmailSent exists
                     if (candidate.lastEmailSent) {
                         const emailIcon = document.createElement('i');
                         emailIcon.className = 'bi bi-envelope-fill ms-2 text-primary';
                         emailIcon.style.cursor = 'pointer';
                         emailIcon.title = `Last email sent: ${candidate.lastEmailSent}`;
-                        // Optionally, use a tooltip library or native title
                         detailsLink.appendChild(emailIcon);
                     }
                     tbody.appendChild(row);
@@ -627,18 +716,13 @@ function showCandidateDetailsScreen(candidateId) {
 
             const candidate = data.candidate;
             const lastEmailSent = data.lastEmailSent;
+            const candidateNotes = data.candidateNotes || '';
             const content = document.getElementById('candidateDetailsContent');
             const template = document.getElementById('candidateDetailsTemplate');
             content.innerHTML = '';
             if (template) {
                 const node = template.content.cloneNode(true);
 
-                // Score badge
-                const badge = node.querySelector('#candidateScoreBadge');
-                if (badge) {
-                    badge.className = `badge ${getScoreBadgeClass(candidate.score)}`;
-                    badge.querySelector('.score-value').textContent = candidate.score || 'N/A';
-                }
 
                 // Set last email sent info
                 const lastEmailDiv = node.querySelector('#lastEmailSentInfo');
@@ -653,8 +737,8 @@ function showCandidateDetailsScreen(candidateId) {
                 // Helper for boolean display
                 function boolDisplay(val) {
                     if (typeof val === 'boolean') return val ? 'Yes' : 'No';
-                    if (val === true || val === 'true' || val === 'Yes' || val === 1) return 'Yes';
-                    if (val === false || val === 'false' || val === 'No' || val === 0) return 'No';
+                    if (val === true || val === 'true' || val === 1) return 'Yes';
+                    if (val === false || val === 'false' || val === 0) return 'No';
                     return val || 'N/A';
                 }
 
@@ -664,10 +748,35 @@ function showCandidateDetailsScreen(candidateId) {
                     let val = candidate[field];
 
                     // Special handling for booleans and checkboxes
-                    if (['declaration1', 'declaration2', 'consentcontact', 'consentnews'].includes(field)) {
+                    if (["declaration1", "declaration2", "consentcontact", "consentnews"].includes(field)) {
                         el.textContent = boolDisplay(val);
-                    } else if (field === 'pets' && !val) {
-                        el.textContent = 'No';
+                    } else if (field === "pets" && !val) {
+                        el.textContent = "No";
+                    } else if (field === "candidateNotes") {
+                        el.textContent = candidateNotes || '';
+                    } else if (val && typeof val === 'string' && val.length > 30) {
+                        // Truncate and add expand/collapse button (robust version)
+                        const shortText = val.slice(0, 30) + '...';
+                        let expanded = false;
+                        function renderText() {
+                            el.innerHTML = '';
+                            const textNode = document.createTextNode(expanded ? val + ' ' : shortText + ' ');
+                            el.appendChild(textNode);
+                            el.appendChild(btn);
+                            el.setAttribute('data-expanded', expanded ? 'true' : 'false');
+                        }
+                        const btn = document.createElement('button');
+                        btn.type = 'button';
+                        btn.className = 'btn btn-link btn-sm p-0 align-baseline';
+                        btn.innerHTML = '<i class="bi bi-arrows-angle-expand"></i>';
+                        btn.setAttribute('aria-label', 'Show more');
+                        btn.onclick = function() {
+                            expanded = !expanded;
+                            btn.innerHTML = expanded ? '<i class="bi bi-arrows-angle-contract"></i>' : '<i class="bi bi-arrows-angle-expand"></i>';
+                            btn.setAttribute('aria-label', expanded ? 'Show less' : 'Show more');
+                            renderText();
+                        };
+                        renderText();
                     } else {
                         el.textContent = val || 'N/A';
                     }
@@ -744,14 +853,6 @@ function showCandidateDetailsScreen(candidateId) {
     }
 }
 
-function getScoreBadgeClass(score) {
-    if (!score) return 'bg-secondary';
-    if (score >= 90) return 'bg-success';
-    if (score >= 70) return 'bg-info';
-    if (score >= 50) return 'bg-warning';
-    return 'bg-danger';
-}
-
 function getPropertyId(){
     const hash = window.location.hash;
     // REST-style: #publicProperty/abc
@@ -761,6 +862,65 @@ function getPropertyId(){
     // fallback for old style (should not be needed after migration)
     const params = new URLSearchParams(hash.split('?')[1]);
     return params.get('id');
+}
+
+function showCandidateNotesScreen() {
+    if (!requireLogin('Please log in to view candidate notes.')) return;
+    hideAllScreens();
+    document.getElementById('candidateNotesScreen').classList.remove('hidden');
+    injectNavbar();
+    // Load notes for this candidate
+    const candidateId = getCandidateId();
+    if (candidateId) {
+        showOverlay();
+        fetch(`${baseUrl}/get-tenant-candidate-details?id=${encodeURIComponent(candidateId)}`, {
+            headers: {
+                ...getAuthHeaders()
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById('candidateNotesTextarea').value = data.candidateNotes || '';
+            } else {
+                document.getElementById('candidateNotesTextarea').value = '';
+            }
+        })
+        .finally(hideOverlay);
+    }
+    // Save button handler
+    document.getElementById('saveCandidateNotesButton').onclick = function() {
+        const notes = document.getElementById('candidateNotesTextarea').value.trim();
+        if (!notes) {
+            document.getElementById('candidateNotesTextarea').classList.add('is-invalid');
+            return;
+        }
+        showOverlay();
+        fetch(`${baseUrl}/save-candidate-notes`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                ...getAuthHeaders()
+            },
+            body: JSON.stringify({ candidateId, notes })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showAlert('Notes saved!', 'success');
+                showCandidateDetailsScreen(candidateId);
+            } else {
+                showAlert(data.message || 'Failed to save notes.', 'danger');
+            }
+        })
+        .catch(() => {
+            showAlert('Failed to save notes.', 'danger');
+        })
+        .finally(hideOverlay);
+    };
+    if (history.state?.screen !== 'candidateNotes' || history.state?.candidateId !== candidateId) {
+        history.pushState({ screen: 'candidateNotes', candidateId }, '', `#candidateNotes/${encodeURIComponent(candidateId || '')}`);
+    }
 }
 
 // --- Public Property View ---
@@ -819,7 +979,7 @@ function hideAllScreens() {
         'confirmEmailScreen', 'resetPasswordScreen', 'dashboardScreen', 
         'addPropertyScreen', 'publicPropertyScreen', 'tenantCandidatesScreen',
         'confirmationScreen', 'thankYouScreen', 'tenantDetailsScreen', 'candidateDetailsScreen',
-        'emailCandidateScreen', 'feedbackScreen'
+        'emailCandidateScreen', 'feedbackScreen', 'candidateNotesScreen'
     ];
     screens.forEach(screenId => {
         const screen = document.getElementById(screenId);
@@ -878,11 +1038,9 @@ function handleScreen(screen) {
             break;
         }
         case 'candidateDetails': {
-            // Try to get candidateId from state or hash
             let candidateId = history.state?.candidateId;
             if (!candidateId) {
                 const hash = window.location.hash;
-                // REST-style: #candidateDetails/abc
                 if (hash.startsWith('#candidateDetails/')) {
                     candidateId = hash.split('/')[1];
                 }
@@ -895,7 +1053,6 @@ function handleScreen(screen) {
             let propertyId = history.state?.propertyId;
             if (!propertyId) {
                 const hash = window.location.hash;
-                // REST-style: #tenantCandidates/abc
                 if (hash.startsWith('#tenantCandidates/')) {
                     propertyId = hash.split('/')[1];
                 }
@@ -913,6 +1070,18 @@ function handleScreen(screen) {
                 }
             }
             if (candidateId) showEmailCandidateScreen();
+            else showDashboardScreen();
+            break;
+        }
+        case 'candidateNotes': {
+            let candidateId = history.state?.candidateId;
+            if (!candidateId) {
+                const hash = window.location.hash;
+                if (hash.startsWith('#candidateNotes/')) {
+                    candidateId = hash.split('/')[1];
+                }
+            }
+            if (candidateId) showCandidateNotesScreen();
             else showDashboardScreen();
             break;
         }
@@ -990,7 +1159,14 @@ function handleHashOrDefault() {
             showEmailCandidateScreen();
             return;
         }
+    } else if (hash.startsWith('#candidateNotes/')) {
+        const candidateId = hash.split('/')[1];
+        if (candidateId) {
+            showCandidateNotesScreen();
+            return;
+        }
     }
+
 
     showLandingScreen();
 }
@@ -1212,15 +1388,10 @@ document.querySelectorAll('textarea[required]').forEach(textarea => {
     });
 });
 
-function getCandidateId(){
+function getCandidateId() {
     const hash = window.location.hash;
-    if (hash.startsWith('#emailCandidate/')) {
-        return hash.split('/')[1];
-    }
-    else if (hash.startsWith('#candidateDetails/')) {
-        return hash.split('/')[1];
-    }
-    return null;
+    const match = hash.match(/^#(?:emailCandidate|candidateDetails|candidateNotes)\/(.+)/);
+    return match ? match[1] : null;
 }
 
 function backToCandidateDetailsScreen(){
@@ -1433,4 +1604,63 @@ function injectNavbar() {
         placeholder.innerHTML = '';
         placeholder.appendChild(template.content.cloneNode(true));
     });
+}
+
+function showCandidateNotesScreen() {
+    if (!requireLogin('Please log in to view candidate notes.')) return;
+    hideAllScreens();
+    document.getElementById('candidateNotesScreen').classList.remove('hidden');
+    injectNavbar();
+    // Load notes for this candidate
+    const candidateId = getCandidateId();
+    if (candidateId) {
+        showOverlay();
+        fetch(`${baseUrl}/get-tenant-candidate-details?id=${encodeURIComponent(candidateId)}`, {
+            headers: {
+                ...getAuthHeaders()
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                document.getElementById('candidateNotesTextarea').value = data.candidateNotes || '';
+            } else {
+                document.getElementById('candidateNotesTextarea').value = '';
+            }
+        })
+        .finally(hideOverlay);
+    }
+    // Save button handler
+    document.getElementById('saveCandidateNotesButton').onclick = function() {
+        const notes = document.getElementById('candidateNotesTextarea').value.trim();
+        if (!notes) {
+            document.getElementById('candidateNotesTextarea').classList.add('is-invalid');
+            return;
+        }
+        showOverlay();
+        fetch(`${baseUrl}/save-candidate-notes`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                ...getAuthHeaders()
+            },
+            body: JSON.stringify({ candidateId, notes })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showAlert('Notes saved!', 'success');
+                showCandidateDetailsScreen(candidateId);
+            } else {
+                showAlert(data.message || 'Failed to save notes.', 'danger');
+            }
+        })
+        .catch(() => {
+            showAlert('Failed to save notes.', 'danger');
+        })
+        .finally(hideOverlay);
+    };
+    if (history.state?.screen !== 'candidateNotes' || history.state?.candidateId !== candidateId) {
+        history.pushState({ screen: 'candidateNotes', candidateId }, '', `#candidateNotes/${encodeURIComponent(candidateId || '')}`);
+    }
 }

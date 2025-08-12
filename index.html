@@ -149,12 +149,6 @@
             text-align: center;
             margin-bottom: 1.5rem;
         }
-        #candidateScoreBadge {
-            font-size: 1.1rem;
-            padding: 0.5em 1.2em;
-            margin-bottom: 0.5rem;
-            display: inline-block;
-        }
         @media (max-width: 600px) {
             .tenant-details-card {
                 padding: 1rem 0.5rem;
@@ -203,6 +197,18 @@
             #tenantCandidatesContent table tbody td {
                 font-size: 0.97rem;
             }
+        }
+
+        /* Ensure text wrap for tenant candidates table and candidate details */
+        #tenantCandidatesContent td, #tenantCandidatesContent th {
+            max-width: 320px;
+            word-break: break-word;
+            white-space: normal !important;
+        }
+        #candidateDetailsScreen .col-7, #candidateDetailsScreen .col-md-8 {
+            max-width: 320px;
+            word-break: break-word;
+            white-space: normal !important;
         }
 
     </style>
@@ -330,7 +336,7 @@
                   <div class="row g-4">
                     <div class="col-md-4">
                       <span class="badge badge-custom px-3 py-2 mb-2">⚡ Save Time</span>
-                      <p>Filter and rank rental leads so you talk to the best candidates first.</p>
+                      <p>Collect, review and notify your leads all in one place.</p>
                     </div>
                     <div class="col-md-4">
                       <span class="badge badge-custom px-3 py-2 mb-2">🎁 Lock In Free Access</span>
@@ -350,11 +356,11 @@
                   <div class="row g-4">
                     <div class="col-md-3">
                       <h5>🔍 Smarter Screening</h5>
-                      <p>We help you prioritize leads based on income, move-in readiness, and more — no more guesswork.</p>
+                      <p>We help you collect details about each leads so you can make best possible decision.</p>
                     </div>
                     <div class="col-md-3">
-                      <h5>📊 Lead Scoring</h5>
-                      <p>Our simple ranking system helps you identify the best tenant candidates first.</p>
+                      <h5>📊 Note taking</h5>
+                      <p>As you review each candidate take notes to refer to them later.</p>
                     </div>
                     <div class="col-md-3">
                       <h5>📂 Organized Listings</h5>
@@ -378,8 +384,8 @@
                             <p class="text-muted">Create a listing and generate a custom link to share with potential tenants.</p>
                         </div>
                         <div class="col-md-4">
-                            <h5>2. Receive Ranked Leads</h5>
-                            <p class="text-muted">Candidates answer a short pre-screening form. We rank leads to save you time.</p>
+                            <h5>2. Receive Leads</h5>
+                            <p class="text-muted">Candidates answer a short pre-screening form, you see review them as soon as they submit the anonymous questionnaire.</p>
                         </div>
                         <div class="col-md-4">
                             <h5>3. Contact the Best Fits</h5>
@@ -921,7 +927,6 @@
                         </ol>
                     </nav>
                     <div id="tenantCandidatesContent" class="mt-4"></div>
-                    <p><small>* This score is a tool to help organize and compare applicants based on self-reported information. It is not used to automatically accept or reject tenants.</small></p>
                 </div>
             </div>
         </div>
@@ -958,6 +963,33 @@
                 </div>
             </div>
         </div>
+
+        <!-- Candidate Notes Screen -->
+        <div id="candidateNotesScreen" class="hidden">
+            <div class="min-vh-100 d-flex mt-1 align-items-start justify-content-center">
+                <div class="bg-white rounded-2 shadow shadow-mobile-none p-4 mx-auto col-12 col-lg-8">
+                    <div class="navbar-placeholder"></div>
+                    <nav aria-label="breadcrumb" class="mb-2">
+                        <ol class="breadcrumb small">
+                            <li class="breadcrumb-item"><a href="javascript:void(0)" onclick="showDashboardScreen()">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="javascript:void(0)" onclick="backToTenantCandidatesScreen()">Tenant Candidates</a></li>
+                            <li class="breadcrumb-item"><a href="javascript:void(0)" onclick="backToCandidateDetailsScreen()">Candidate Details</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Candidate Notes</li>
+                        </ol>
+                    </nav>
+                    <h2 class="mb-4">Candidate Notes</h2>
+                    <form id="candidateNotesForm" novalidate>
+                        <div class="mb-3">
+                            <label for="candidateNotesTextarea" class="form-label">Notes</label>
+                            <textarea class="form-control" id="candidateNotesTextarea" rows="10" required></textarea>
+                            <div class="invalid-feedback">Please enter your notes.</div>
+                        </div>
+                        <button type="button" class="btn btn-primary" id="saveCandidateNotesButton">Save</button>
+                        <button type="button" class="btn btn-secondary" onclick="backToCandidateDetailsScreen()">Back</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div id="alertContainer" class="alert hidden" role="alert" style="position: fixed; top: 10px; right: 10px; z-index: 1050;"></div>
@@ -972,11 +1004,12 @@
             <div class="my-md-4">
                 <div class="row">
                     <div class="col-6">
-                        <span id="candidateScoreBadge" class="badge">
-                            Score: <span class="score-value"></span>
-                        </span>
+                        &nbsp;
                     </div>
-                    <div class="col-6 text-end">
+                    <div class="col-6 text-end d-flex justify-content-end align-items-center gap-2">
+                        <button type="button" class="btn btn-secondary" id="candidateNotesBtn" onclick="showCandidateNotesScreen()">
+                            <i class="bi bi-journal-text"></i> Edit candidate notes
+                        </button>
                         <button type="button" class="btn btn-primary" id="emailCandidateBtn" onclick="showEmailCandidateScreen()">
                             <i class="bi bi-envelope"></i> Email <span class="d-none d-md-inline">candidate</span> 
                         </button>
@@ -1138,6 +1171,16 @@
                     </div>
                 </div>
             </div>
+            <!-- New Notes Section -->
+            <div class="my-4">
+                <h4>Notes</h4>
+                <div class="container-fluid px-0">
+                    <div class="row mb-2">
+                        <div class="col-5 col-md-4 text-end fw-medium text-secondary">Notes on candidate</div>
+                        <div class="col-7 col-md-8" data-field="candidateNotes"></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </template>
 
@@ -1149,7 +1192,6 @@
             <td data-label="Profession" class="d-none d-lg-table-cell"></td>
             <td data-label="Gross Income" class="d-none d-lg-table-cell"></td>
             <td data-label="Vehicles" class="d-none d-md-table-cell"></td>
-            <td data-label="Score"></td>
             <td data-label="Application Date" class="d-none d-md-table-cell"></td>
             <td data-label="Details">
                 <a href="javascript:void(0)">View</a>
@@ -1204,7 +1246,7 @@
     </template>
     
 
-    <script src="code.js?ts=1753669856"></script>
+    <script src="code.js?ts=1754964498"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
