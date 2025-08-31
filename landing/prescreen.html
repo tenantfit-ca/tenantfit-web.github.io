@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Free Guide for Ontario Landlords | TenantFit</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+  <div id="alertContainer" class="alert d-none" role="alert" style="position: fixed; top: 10px; right: 10px; z-index: 1050;"></div>
+  <div id="overlay" class="d-none position-fixed top-0 start-0 w-100 h-100 bg-dark bg-opacity-25 justify-content-center align-items-center" style="z-index:2000;">
+      <div class="spinner-border text-primary" role="status" style="width:3rem;height:3rem;">
+          <span class="visually-hidden">Loading...</span>
+      </div>
+  </div>
+
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+        <div class="card shadow rounded">
+          <div class="card-body p-4">
+            <h1 class="card-title text-center mb-4">🎯 Free Guide: Screen Smarter, Save Time</h1>
+            <p>
+              Landlords across Ontario are overwhelmed with rental inquiries — and it's harder than ever to figure out who’s serious, who’s a fit, and who’s just ghosting.
+            </p>
+            <h2 class="h5 mt-4">📄 What You'll Get:</h2>
+            <ul class="list-unstyled">
+              <li>✅ Pre-screening form to send to your leads</li>
+              <li>✅ 5+ time-saving screening tips for landlords</li>
+              <li>✅ 10+ red flags to watch out for when reviewing inquiries</li>
+              <li>✅ Clean, simple layout — just a 3-page guide to help you focus</li>
+            </ul>
+            <p><strong>Perfect for: Small landlords, DIY investors, and agents managing rentals in Ontario.</strong></p>
+            <form id="leadForm" class="mt-4">
+                <input type="hidden" name="leadSource" value="prescreen-landing">
+              <div class="mb-3">
+                <label for="email" class="form-label">📬 Enter your email to download the free guide:</label>
+                <input type="email" class="form-control" name="email" id="email" required placeholder="you@example.com">
+              </div>
+                <input class="form-check-input" type="checkbox" name="agreedToReceiveNews" id="agreedToReceiveNews"> I agree to receive occasional emails with tips, updates, and free tools from TenantFit. I can unsubscribe at any time. 
+              <button type="submit" class="btn btn-primary w-100">📥 Get the Free Guide</button>
+            </form>
+            <div id="leadSuccessMsg" class="mt-4 text-success" style="display:none;">
+                <h3> Please check your email for download link. </h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/landing/code.js?ts=1756667987"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
